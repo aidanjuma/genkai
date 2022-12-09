@@ -106,6 +106,29 @@ export enum Dialect {
   Tsugaru = "&tsug;",
 }
 
+// <ke/re_pri> - An indication of frequency/relative priority of certain entry.
+// NFXX not included in this enum. This should be defined as a seperate string.
+export enum FrequencyRating {
+  /*
+   * "News" set; appears in the wordfreq file compiled by Alexandre Girardi from
+   * Mainichi Shimbun; first 12,000 words are News1, next 12,000 words are News2.
+   */
+  News1 = "news1",
+  News2 = "news2",
+  /*
+   * "Ichi" set; appears in the "Ichimango goi bunruishuu" (Senmon Kyouiku).
+   * Ichi2 is entries that have lower frequencies when compared to Ichi1.
+   */
+  Ichi1 = "ichi1",
+  Ichi2 = "ichi2",
+  // "Spec" set; small number of words detected to be common, but not included in prior lists.
+  Spec1 = "spec1",
+  Spec2 = "spec2",
+  // Common loanwords (i.e. gaikoku) - based on wordfreq file.
+  Gai1 = "gai1",
+  Gai2 = "gai2",
+}
+
 // <field> - i.e. Computing is "comp"; field of study/interest related to word/phrase.
 export enum Field {
   Agriculture = "&agric;",
@@ -254,7 +277,7 @@ export enum Miscellaneous {
   Yojijukugo = "&yoji;",
 }
 
-// <pos> - annotated part-of-speech indicators.
+// <pos> - Annotated part-of-speech indicators.
 // TODO: Where to place detailed descriptions of each <pos>?
 export enum PartOfSpeech {
   PrenominalNounOrVerb = "&adj-f;",
@@ -359,7 +382,7 @@ export enum ReadingInfo {
   SearchOnlyKanaForm = "&sK;",
 }
 
-// <ke_inf> - see ReadingInfo; same, but for kanji.
+// <ke_inf> - See ReadingInfo; same, but for kanji.
 export enum KanjiInfo {
   Ateji = "&ateji;",
   IrregularKanaUsage = "&ik;",
