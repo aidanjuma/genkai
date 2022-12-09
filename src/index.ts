@@ -1,3 +1,4 @@
+import JMDict from "./providers/index";
 import {
   IEntry,
   IReadingElement,
@@ -14,6 +15,10 @@ import {
   KanjiInfo,
 } from "./models";
 
+// Providers:
+export { JMDict };
+
+// Types/Models:
 export {
   IEntry,
   IReadingElement,

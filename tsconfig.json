@@ -12,7 +12,7 @@
     "strict": true,
     "skipLibCheck": true,
     "baseUrl": "./src",
-    "paths": { "@models/*": ["models/*"] }
+    "paths": { "@models/*": ["models/*"], "@providers/*": ["providers/*"] }
   },
   "ts-node": {
     "esm": true
