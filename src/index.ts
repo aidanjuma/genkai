@@ -7,7 +7,10 @@ import {
   Language,
   Dialect,
   Field,
+  Miscellaneous,
+  PartOfSpeech,
   ReadingInfo,
+  KanjiInfo,
 } from "./models";
 
 export {
@@ -19,5 +22,8 @@ export {
   Language,
   Dialect,
   Field,
+  Miscellaneous,
+  PartOfSpeech,
   ReadingInfo,
+  KanjiInfo,
 };
