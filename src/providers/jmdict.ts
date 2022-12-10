@@ -1,9 +1,11 @@
 import {
   IEntry,
+  IJapaneseReading,
   IReadingElement,
   IKanjiElement,
   ISense,
   ITranslation,
+  IRestrictLexeme,
   Language,
   Dialect,
   Field,
@@ -12,6 +14,8 @@ import {
   PartOfSpeech,
   ReadingInfo,
   KanjiInfo,
+  KanaType,
+  EntryType,
 } from "@models/index";
 
 class JMDict {}

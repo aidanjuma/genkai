@@ -1,9 +1,11 @@
 import {
   IEntry,
+  IJapaneseReading,
   IReadingElement,
   IKanjiElement,
   ISense,
   ITranslation,
+  IRestrictLexeme,
   Language,
   Dialect,
   Field,
@@ -12,14 +14,18 @@ import {
   PartOfSpeech,
   ReadingInfo,
   KanjiInfo,
+  KanaType,
+  EntryType,
 } from "./types";
 
 export {
   IEntry,
+  IJapaneseReading,
   IReadingElement,
   IKanjiElement,
   ISense,
   ITranslation,
+  IRestrictLexeme,
   Language,
   Dialect,
   Field,
@@ -28,4 +34,6 @@ export {
   PartOfSpeech,
   ReadingInfo,
   KanjiInfo,
+  KanaType,
+  EntryType,
 };

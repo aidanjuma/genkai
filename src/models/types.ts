@@ -29,10 +29,14 @@ export interface IEntry {
   kanjiElements?: IKanjiElement[];
 }
 
-// TODO: Expand on IReadingElement.
+export interface IJapaneseReading {
+  reading: string;
+  kanaType: KanaType;
+}
+
 export interface IReadingElement {
   // Reading of word/phrase in kana.
-  reading: string;
+  reading: IJapaneseReading[];
 
   /*
    * re_nokanji => isTrueReading: false if this reading
@@ -48,15 +52,35 @@ export interface IReadingElement {
    */
   subsetOfNonKanaReadings?: string[];
 
-  // <re_inf> entities mapped to enum.
+  // Info about said kanji; <re_inf> entity.
   readingInfo?: ReadingInfo[];
+
+  // <re_pri> - either pre-determined (see enum) or NFxx (as string).
+  frequencyRating?: (FrequencyRating | string)[];
 }
 
-// TODO: Expand on IKanjiElement.
-export interface IKanjiElement {}
+export interface IKanjiElement {
+  // <keb> - Kanji; displayed as written.
+  kanji: string;
+
+  // Info about said kanji; <ke_inf> entity.
+  kanjiInfo?: KanjiInfo[];
+
+  // <ke_pri> - either pre-determined (see enum) or NFxx (as string).
+  frequencyRating?: (FrequencyRating | string)[];
+}
 
 // TODO: Expand on ISense.
 export interface ISense {
+  /* Potential translational equivalents in:
+   * English
+   * German
+   * French
+   * Russian
+   * Hungarian
+   * Slovenian
+   * Dutch
+   */
   inEnglish?: ITranslation[];
   inGerman?: ITranslation[];
   inFrench?: ITranslation[];
@@ -65,6 +89,12 @@ export interface ISense {
   inHungarian?: ITranslation[];
   inSlovenian?: ITranslation[];
   inDutch?: ITranslation[];
+
+  // See IRestrictLexeme interface for more details.
+  lexemeRestrictions?: IRestrictLexeme[];
+
+  // <ant> - An antonym that matches another entry's keb/reb.
+  antonym?: string;
 }
 
 export interface ITranslation {
@@ -76,7 +106,12 @@ export interface ITranslation {
   relativeCommonality: number;
 }
 
-/* Entity Mappings => Enums */
+/* ELEMENT & ENTITY Tags */
+// <stagr> & <stagk> - If present, indicate that sense is restricted to lexeme represented by keb/reb.
+export interface IRestrictLexeme {
+  type: EntryType;
+  content: IJapaneseReading;
+}
 
 // <...xml:lang="xyz"> => English is assumed default.
 export enum Language {
@@ -391,4 +426,15 @@ export enum KanjiInfo {
   OutdatedKanji = "&oK;",
   RarelyUsedKanjiForm = "&rK;",
   SearchOnlyKanjiForm = "&sK;",
+}
+
+/* 言海 | Enums */
+export enum KanaType {
+  Hiragana,
+  Katakana,
+}
+
+export enum EntryType {
+  Reading,
+  Kanji,
 }

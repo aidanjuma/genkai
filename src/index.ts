@@ -1,10 +1,11 @@
-import JMDict from "./providers/index";
 import {
   IEntry,
+  IJapaneseReading,
   IReadingElement,
   IKanjiElement,
   ISense,
   ITranslation,
+  IRestrictLexeme,
   Language,
   Dialect,
   Field,
@@ -13,18 +14,18 @@ import {
   PartOfSpeech,
   ReadingInfo,
   KanjiInfo,
+  KanaType,
+  EntryType,
 } from "./models";
 
-// Providers:
-export { JMDict };
-
-// Types/Models:
 export {
   IEntry,
+  IJapaneseReading,
   IReadingElement,
   IKanjiElement,
   ISense,
   ITranslation,
+  IRestrictLexeme,
   Language,
   Dialect,
   Field,
@@ -33,4 +34,6 @@ export {
   PartOfSpeech,
   ReadingInfo,
   KanjiInfo,
+  KanaType,
+  EntryType,
 };
