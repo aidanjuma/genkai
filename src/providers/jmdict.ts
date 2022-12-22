@@ -1,3 +1,4 @@
+import Downloader from "@utils/downloader";
 import {
   IEntry,
   IJapaneseReading,
@@ -18,6 +19,6 @@ import {
   EntryType,
 } from "@models/index";
 
-class JMDict {}
+class JMdict {}
 
-export default JMDict;
+export default JMdict;
