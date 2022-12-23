@@ -681,6 +681,11 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.1.tgz#20f18294f797f2209b5f65c8e3b5c8e8261d127c"
   integrity sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==
 
+"@types/xml-escape@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@types/xml-escape/-/xml-escape-1.1.1.tgz#d9ab3a17abd88e475a6f1c63ccb23ea15e56c30e"
+  integrity sha512-cXK3IFR5ogqgKFM8dfcSj18UXHCjZjnxRqndrRN4Tpq9GKus3mKY8CD+UJIJgGIkuIYg2wMlmXrxG4CoA7JQlQ==
+
 "@types/xml2js@^0.4.11":
   version "0.4.11"
   resolved "https://registry.yarnpkg.com/@types/xml2js/-/xml2js-0.4.11.tgz#bf46a84ecc12c41159a7bd9cf51ae84129af0e79"
@@ -2281,6 +2286,11 @@ write-file-atomic@^4.0.1:
   dependencies:
     imurmurhash "^0.1.4"
     signal-exit "^3.0.7"
+
+xml-escape@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/xml-escape/-/xml-escape-1.1.0.tgz#3904c143fa8eb3a0030ec646d2902a2f1b706c44"
+  integrity sha512-B/T4sDK8Z6aUh/qNr7mjKAwwncIljFuUP+DO/D5hloYFj+90O88z8Wf7oSucZTHxBAsC1/CTP4rtx/x1Uf72Mg==
 
 xml2js@^0.4.23:
   version "0.4.23"

@@ -2,16 +2,15 @@ import fs from "fs";
 import path from "path";
 import zlib from "zlib";
 import axios from "axios";
-import { SourceUrl } from "../models/types";
+import { FileType, IFile, SourceUrl } from "../models/types";
+import { FileAlreadyExistsException } from "./exceptions";
 
 const { log } = console;
 
 class Downloader {
-  public date!: string;
-  public fileName!: string;
-  public fileUrl!: SourceUrl;
-  public fileExtension?: string;
-  public fileDestination!: string;
+  public destinationFile!: IFile;
+  protected fileUrl!: SourceUrl;
+  private fileName!: string;
   private static readonly downloadsPath = path.join(
     __dirname,
     "..",
@@ -19,30 +18,24 @@ class Downloader {
     "downloads"
   );
 
-  constructor(
-    fileUrl: SourceUrl,
-    fileName: string,
-    fileExtension: string | undefined
-  ) {
+  constructor(fileUrl: SourceUrl, fileName: string, fileType: FileType) {
     this.fileUrl = fileUrl;
-    this.fileExtension = fileExtension;
-    this.date = this.getUTCDateString();
-    this.sanitizeAndSetFileName(fileName);
+
+    const date = this.getUTCDateString();
+    this.sanitizeAndSetFileName(fileName, fileType, date);
+
+    // Sets legal file name to have destination in downloads folder:
+    this.destinationFile = {
+      fileType: fileType,
+      filePath: path.join(Downloader.downloadsPath, fileName),
+    };
   }
 
-  // __ Public/Static Methods __ //
-
   public downloadFile = async (): Promise<void> => {
-    // Sets legal file name to have destination in downloads folder:
-    this.fileDestination = path.join(Downloader.downloadsPath, this.fileName);
-
     // Return if already exists, logging to console.
-    const exists = fs.existsSync(this.fileDestination);
+    const exists = fs.existsSync(this.destinationFile.filePath);
     if (exists) {
-      log(
-        `The file ${this.fileName} already exists. Please try again with another file!`
-      );
-      return;
+      throw new FileAlreadyExistsException(this.destinationFile.filePath);
     }
 
     // Download file!
@@ -50,21 +43,13 @@ class Downloader {
   };
 
   static cleanupDownloads = (): void => {
-    fs.readdir(this.downloadsPath, (err, files) => {
-      if (err) {
-        log(err);
-        return;
-      }
-
-      // If not the README, delete.
-      files.forEach(async (file) => {
-        const dir = path.join(this.downloadsPath, file);
-        if (file != "README.md") fs.unlinkSync(dir);
-      });
+    const files = fs.readdirSync(this.downloadsPath, { withFileTypes: true });
+    // If not the README, delete.
+    files.forEach(async (file) => {
+      const dir = path.join(this.downloadsPath, file.name);
+      if (file.name != "README.md") fs.unlinkSync(dir);
     });
   };
-
-  // __ Private Methods __  //
 
   /* Used to formulate a date string based on UTC time. */
   private getUTCDateString = (): string => {
@@ -86,8 +71,12 @@ class Downloader {
   };
 
   /* Removes illegal characters from file string (https://en.wikipedia.org/wiki/Filename#Reserved_characters_and_words). */
-  private sanitizeAndSetFileName = (fileName: string): void => {
-    const sanitized = `${fileName}-${this.date}.${this.fileExtension}`;
+  private sanitizeAndSetFileName = (
+    fileName: string,
+    fileType: FileType,
+    date: string
+  ): void => {
+    const sanitized = `${fileName}-${date}.${fileType as string}`;
     this.fileName = sanitized.replace(/[/\\?%*:|"<>]/g, "");
   };
 
@@ -103,8 +92,10 @@ class Downloader {
       const decompressed = zlib.gunzipSync(data);
 
       // Save .xml file to specified location.
-      fs.writeFileSync(this.fileDestination, decompressed, "utf8");
-      log(`File ${this.fileName} has been saved @ ${this.fileDestination}`);
+      fs.writeFileSync(this.destinationFile.filePath, decompressed, "utf8");
+      log(
+        `File ${this.fileName} has been saved @ ${this.destinationFile.filePath}`
+      );
     } catch (err) {
       throw new Error((err as Error).message);
     }

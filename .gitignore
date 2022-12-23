@@ -129,5 +129,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# macOS' ".DS_Store"
+# macOS's ".DS_Store"
 .DS_Store
+
+# Data: Source/Parsed Files
+downloads/JMdict*
+json/JMdict*

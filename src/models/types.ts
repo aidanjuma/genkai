@@ -443,3 +443,14 @@ export enum EntryType {
 export enum SourceUrl {
   JMdict = "http://ftp.edrdg.org/pub/Nihongo/JMdict.gz",
 }
+
+export enum FileType {
+  XML = "xml",
+  JSON = "json",
+}
+
+/* 言海 | Interfaces */
+export interface IFile {
+  fileType: FileType;
+  filePath: string;
+}
