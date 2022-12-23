@@ -1,3 +1,4 @@
 import Downloader from "./downloader";
+import XMLParser from "./xml-parser";
 
-export default { Downloader };
+export default { Downloader, XMLParser };

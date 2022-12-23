@@ -12,7 +12,12 @@ class Downloader {
   public fileUrl!: SourceUrl;
   public fileExtension?: string;
   public fileDestination!: string;
-  private readonly downloadPath = path.join(__dirname, "..", "..", "downloads");
+  private static readonly downloadsPath = path.join(
+    __dirname,
+    "..",
+    "..",
+    "downloads"
+  );
 
   constructor(
     fileUrl: SourceUrl,
@@ -20,17 +25,16 @@ class Downloader {
     fileExtension: string | undefined
   ) {
     this.fileUrl = fileUrl;
-    this.fileName = fileName;
     this.fileExtension = fileExtension;
     this.date = this.getUTCDateString();
+    this.sanitizeAndSetFileName(fileName);
   }
 
-  public downloadFile = async (): Promise<void> => {
-    // Removes illegal characters from file string (https://en.wikipedia.org/wiki/Filename#Reserved_characters_and_words).
-    this.sanitizeFileName();
+  // __ Public/Static Methods __ //
 
+  public downloadFile = async (): Promise<void> => {
     // Sets legal file name to have destination in downloads folder:
-    this.fileDestination = path.join(this.downloadPath, this.fileName);
+    this.fileDestination = path.join(Downloader.downloadsPath, this.fileName);
 
     // Return if already exists, logging to console.
     const exists = fs.existsSync(this.fileDestination);
@@ -45,6 +49,24 @@ class Downloader {
     await this.fetchFileFromUrl();
   };
 
+  static cleanupDownloads = (): void => {
+    fs.readdir(this.downloadsPath, (err, files) => {
+      if (err) {
+        log(err);
+        return;
+      }
+
+      // If not the README, delete.
+      files.forEach(async (file) => {
+        const dir = path.join(this.downloadsPath, file);
+        if (file != "README.md") fs.unlinkSync(dir);
+      });
+    });
+  };
+
+  // __ Private Methods __  //
+
+  /* Used to formulate a date string based on UTC time. */
   private getUTCDateString = (): string => {
     const date = new Date();
 
@@ -63,11 +85,13 @@ class Downloader {
     return `${year}-${month}-${day}`;
   };
 
-  private sanitizeFileName = (): void => {
-    const fileName = `${this.fileName}-${this.date}.${this.fileExtension}`;
-    this.fileName = fileName.replace(/[/\\?%*:|"<>]/g, "");
+  /* Removes illegal characters from file string (https://en.wikipedia.org/wiki/Filename#Reserved_characters_and_words). */
+  private sanitizeAndSetFileName = (fileName: string): void => {
+    const sanitized = `${fileName}-${this.date}.${this.fileExtension}`;
+    this.fileName = sanitized.replace(/[/\\?%*:|"<>]/g, "");
   };
 
+  /* Where the actual fetching of the file happens! 🌟 */
   private fetchFileFromUrl = async (): Promise<void> => {
     try {
       const { data } = await axios.get(this.fileUrl as string, {
