@@ -1,4 +1,7 @@
+import BaseParser from "./base-parser";
+import BaseProvider from "./base-provider";
 import {
+  IProviderInfo,
   IEntry,
   IJapaneseReading,
   IReadingElement,
@@ -6,6 +9,7 @@ import {
   ISense,
   ITranslation,
   IRestrictLexeme,
+  IFile,
   Language,
   Dialect,
   Field,
@@ -17,9 +21,13 @@ import {
   KanaType,
   EntryType,
   SourceUrl,
+  FileType,
 } from "./types";
 
 export {
+  BaseParser,
+  BaseProvider,
+  IProviderInfo,
   IEntry,
   IJapaneseReading,
   IReadingElement,
@@ -27,6 +35,7 @@ export {
   ISense,
   ITranslation,
   IRestrictLexeme,
+  IFile,
   Language,
   Dialect,
   Field,
@@ -38,4 +47,5 @@ export {
   KanaType,
   EntryType,
   SourceUrl,
+  FileType,
 };

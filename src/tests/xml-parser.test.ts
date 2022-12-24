@@ -17,7 +17,7 @@ describe("XMLParser Utility Class", () => {
     // Instantiate XMLParser with source file details:
     const parser = new XMLParser({
       fileType: FileType.XML,
-      filePath: downloader.fileDestination,
+      filePath: downloader.destinationFile.filePath,
     });
     await parser.parse();
 

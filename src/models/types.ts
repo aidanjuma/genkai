@@ -3,6 +3,12 @@ Attempt at implementing & re-documenting the following:
 - http://www.edrdg.org/jmdict/jmdict_dtd_h.html
 */
 
+// IProviderInfo: provides information about a provider.
+export interface IProviderInfo {
+  name: string;
+  sourceUrl: SourceUrl;
+}
+
 export interface IEntry {
   // ent_seq - a unique number ID for each entry.
   id: number;
@@ -111,6 +117,12 @@ export interface ITranslation {
 export interface IRestrictLexeme {
   type: EntryType;
   content: IJapaneseReading;
+}
+
+// IFile: not related to dictionary specifically; used in Downloader and XMLParser utils to model file locations/types.
+export interface IFile {
+  fileType: FileType;
+  filePath: string;
 }
 
 // <...xml:lang="xyz"> => English is assumed default.
@@ -428,7 +440,7 @@ export enum KanjiInfo {
   SearchOnlyKanjiForm = "&sK;",
 }
 
-/* 言海 | Enums */
+/* Extra Enums for Readability: */
 export enum KanaType {
   Hiragana,
   Katakana,
@@ -447,10 +459,4 @@ export enum SourceUrl {
 export enum FileType {
   XML = "xml",
   JSON = "json",
-}
-
-/* 言海 | Interfaces */
-export interface IFile {
-  fileType: FileType;
-  filePath: string;
 }
