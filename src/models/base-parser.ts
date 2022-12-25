@@ -10,7 +10,7 @@ abstract class BaseParser extends BaseProvider {
   }
 
   // Required in all providers; retrieve the data from given SourceUrl
-  abstract downloadAndParseSource(): Promise<void>;
+  public abstract downloadAndParseSource(): Promise<void>;
 }
 
 export default BaseParser;

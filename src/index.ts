@@ -20,7 +20,6 @@ import {
   KanjiInfo,
   KanaType,
   EntryType,
-  SourceUrl,
   FileType,
 } from "./models";
 
@@ -46,6 +45,5 @@ export {
   KanjiInfo,
   KanaType,
   EntryType,
-  SourceUrl,
   FileType,
 };

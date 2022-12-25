@@ -6,7 +6,7 @@ Attempt at implementing & re-documenting the following:
 // IProviderInfo: provides information about a provider.
 export interface IProviderInfo {
   name: string;
-  sourceUrl: SourceUrl;
+  sourceUrl: string;
 }
 
 export interface IEntry {
@@ -449,11 +449,6 @@ export enum KanaType {
 export enum EntryType {
   Reading,
   Kanji,
-}
-
-// Populate with more URLs when working with other projects, like name records.
-export enum SourceUrl {
-  JMdict = "http://ftp.edrdg.org/pub/Nihongo/JMdict.gz",
 }
 
 export enum FileType {

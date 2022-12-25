@@ -1,7 +1,8 @@
 import fs from "fs";
 import path from "path";
+import Constants from "../../src/utils/constants";
 import Downloader from "../../src/utils/downloader";
-import { FileType, SourceUrl } from "../models/types";
+import { FileType } from "../models/types";
 
 jest.setTimeout(120000);
 
@@ -9,7 +10,11 @@ jest.setTimeout(120000);
 
 describe("Downloader Utility Class", () => {
   test("Test: Latest file's presence; download if not.", async () => {
-    const downloader = new Downloader(SourceUrl.JMdict, "JMdict", FileType.XML);
+    const downloader = new Downloader(
+      Constants.sourceUrls.JMdict,
+      "JMdict",
+      FileType.XML
+    );
     // Run download script...
     await downloader.downloadFile();
     expect(fs.existsSync(downloader.destinationFile.filePath)).toEqual(true);

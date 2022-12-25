@@ -1,7 +1,8 @@
 import fs from "fs";
+import Constants from "../../src/utils/constants";
 import XMLParser from "../../src/utils/xml-parser";
 import Downloader from "../../src/utils/downloader";
-import { FileType, SourceUrl } from "../models/types";
+import { FileType } from "../models/types";
 
 jest.setTimeout(120000);
 
@@ -10,7 +11,11 @@ jest.setTimeout(120000);
 describe("XMLParser Utility Class", () => {
   // TODO: More robust test; ensure not empty {}?
   test("Test: Download JMdict, parse and ensure it is there.", async () => {
-    const downloader = new Downloader(SourceUrl.JMdict, "JMdict", FileType.XML);
+    const downloader = new Downloader(
+      Constants.sourceUrls.JMdict,
+      "JMdict",
+      FileType.XML
+    );
 
     await downloader.downloadFile();
 

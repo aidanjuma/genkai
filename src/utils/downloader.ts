@@ -2,14 +2,15 @@ import fs from "fs";
 import path from "path";
 import zlib from "zlib";
 import axios from "axios";
-import { FileType, IFile, SourceUrl } from "../models/types";
+import Constants from "./constants";
+import { FileType, IFile } from "../models/types";
 import { FileAlreadyExistsException } from "./exceptions";
 
 const { log } = console;
 
 class Downloader {
   public destinationFile!: IFile;
-  protected fileUrl!: SourceUrl;
+  protected fileUrl!: string;
   private fileName!: string;
   private static readonly downloadsPath = path.join(
     __dirname,
@@ -18,7 +19,7 @@ class Downloader {
     "downloads"
   );
 
-  constructor(fileUrl: SourceUrl, fileName: string, fileType: FileType) {
+  constructor(fileUrl: string, fileName: string, fileType: FileType) {
     this.fileUrl = fileUrl;
 
     const date = this.getUTCDateString();
@@ -55,7 +56,7 @@ class Downloader {
   private getUTCDateString = (): string => {
     const date = new Date();
 
-    if (this.fileUrl === SourceUrl.JMdict) {
+    if (this.fileUrl === Constants.sourceUrls.JMdict) {
       const hour: number = date.getUTCHours();
       const minute: number = date.getUTCMinutes();
       // If before 3:01am UTC, use previous date.
