@@ -93,7 +93,7 @@ class Downloader {
       const decompressed = zlib.gunzipSync(data);
 
       // Save .xml file to specified location.
-      fs.writeFileSync(this.destinationFile.filePath, decompressed, "utf8");
+      fs.writeFileSync(this.destinationFile.filePath, decompressed, "utf-8");
       log(
         `File ${this.fileName} has been saved @ ${this.destinationFile.filePath}`
       );

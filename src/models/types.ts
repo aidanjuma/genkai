@@ -42,7 +42,7 @@ export interface IJapaneseReading {
 
 export interface IReadingElement {
   // Reading of word/phrase in kana.
-  reading: IJapaneseReading[];
+  reading: IJapaneseReading;
 
   /*
    * re_nokanji => isTrueReading: false if this reading

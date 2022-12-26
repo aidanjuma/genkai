@@ -96,7 +96,7 @@ class XMLParser {
       fs.writeFileSync(
         this.destinationFile.filePath,
         JSON.stringify(data),
-        "utf8"
+        "utf-8"
       );
       log("Data written successfully!");
       resolve();
