@@ -23,12 +23,12 @@ class Downloader {
     this.fileUrl = fileUrl;
 
     const date = this.getUTCDateString();
-    this.sanitizeAndSetFileName(fileName, fileType, date);
+    this.fileName = this.sanitizeAndSetFileName(fileName, fileType, date);
 
     // Sets legal file name to have destination in downloads folder:
     this.destinationFile = {
       fileType: fileType,
-      filePath: path.join(Downloader.downloadsPath, fileName),
+      filePath: path.join(Downloader.downloadsPath, this.fileName),
     };
   }
 
@@ -66,7 +66,7 @@ class Downloader {
     // Get each individual component of the full, human-readable date.
     const year: number = date.getUTCFullYear();
     const month: number = date.getUTCMonth();
-    const day: number = date.getUTCDay();
+    const day: number = date.getUTCDate();
 
     return `${year}-${month}-${day}`;
   };
@@ -76,9 +76,9 @@ class Downloader {
     fileName: string,
     fileType: FileType,
     date: string
-  ): void => {
+  ): string => {
     const sanitized = `${fileName}-${date}.${fileType as string}`;
-    this.fileName = sanitized.replace(/[/\\?%*:|"<>]/g, "");
+    return sanitized.replace(/[/\\?%*:|"<>]/g, "");
   };
 
   /* Where the actual fetching of the file happens! 🌟 */
