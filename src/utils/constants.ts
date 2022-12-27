@@ -11,6 +11,9 @@ class Constants {
     RADK: "http://ftp.edrdg.org/pub/Nihongo/radkfile.gz",
     KRAD: "http://ftp.edrdg.org/pub/Nihongo/kradfile.gz",
   };
+  // Japanese Characters: Used to recognise whether character is Hiragana or Katakana via RegExp.
+  static readonly hiraganaRegex: RegExp = new RegExp(/[\u3040-\u309F]/gm);
+  static readonly katakanaRegex: RegExp = new RegExp(/[\u30A0-\u30FF]/gm);
 }
 
 export default Constants;

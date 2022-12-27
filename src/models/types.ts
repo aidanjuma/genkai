@@ -14,14 +14,14 @@ export interface IEntry {
   id: number;
 
   /*
-   * Reading Element(s): at lease one per entry.
+   * Reading Element(s): at least one per entry.
    * Contains reading in kana, and some tags including
    * some status data or characteristics.
    */
   readingElements: IReadingElement[];
 
   /*
-   * Sense Element(s): at lease one per entry.
+   * Sense Element(s): at least one per entry.
    * Contains data such as translational equivalents,
    * part-of-speech data, field of application,
    * & other miscellaneous data.
@@ -37,7 +37,9 @@ export interface IEntry {
 
 export interface IJapaneseReading {
   reading: string;
-  kanaType: KanaType;
+
+  // Some Japanese words can contain both Hiragana & Katakana, so a list is used in those cases.
+  kanaType: KanaType | KanaType[];
 }
 
 export interface IReadingElement {
@@ -45,11 +47,11 @@ export interface IReadingElement {
   reading: IJapaneseReading;
 
   /*
-   * re_nokanji => isTrueReading: false if this reading
+   * re_nokanji => isTrueKanjiReading: false if this reading
    * cannot be regarded as a true reading of a linked
    * kanji.
    */
-  isTrueReading: boolean;
+  isTrueKanjiReading: boolean;
 
   /*
    * re_restr => subsetOfNonKanaReadings: this element is
