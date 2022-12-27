@@ -67,22 +67,72 @@ class JMdict extends BaseParser {
   // TODO: Currently, only added basic structure to functions. Expand on this!
   // TODO: Other data types' parsing functions, such as IKanjiElement, IRestrictLexeme etc.
 
-  private parseReadingElement = (object: {
-    [x: string]: any;
-  }): IReadingElement => {
-    const readingElement: IReadingElement = {
-      reading: {
-        reading: "",
-        kanaType: KanaType.Hiragana,
-      },
-      isTrueReading: false,
-    };
+  private determineKanaType = (reading: string): KanaType | KanaType[] => {
+    let kanaType: KanaType | KanaType[];
 
-    return readingElement;
+    const containsHiragana = Constants.hiraganaRegex.test(reading);
+    const containsKatakana = Constants.katakanaRegex.test(reading);
+
+    containsHiragana && containsKatakana
+      ? (kanaType = [KanaType.Hiragana, KanaType.Katakana])
+      : containsHiragana
+      ? (kanaType = KanaType.Hiragana)
+      : containsKatakana
+      ? (kanaType = KanaType.Katakana)
+      : null;
+
+    return kanaType!;
   };
 
-  private parseSense = (object: { [x: string]: any }): ISense => {
-    const sense: ISense = {};
+  private parseFrequencyRating = (rating: string): FrequencyRating | string => {
+    const indexOfRating: number = Object.values(FrequencyRating).indexOf(
+      rating as unknown as FrequencyRating
+    );
+
+    switch (indexOfRating) {
+      case -1:
+        return rating as string;
+      default:
+        return rating as FrequencyRating;
+    }
+  };
+
+  // During parsing to JSON, multiple <r_ele> are compiled into one; each item in array is a seperated IReadingElement.
+  private parseReadingElements = (r_ele: {
+    [x: string]: any;
+  }): IReadingElement[] => {
+    const readingElements: IReadingElement[] = [];
+
+    r_ele.array.forEach((element: { [reb: string]: string[] }) => {
+      const reb: string = element.reb[0];
+
+      const reading: IJapaneseReading = {
+        reading: reb,
+        kanaType: this.determineKanaType(reb),
+      };
+
+      const readingInfo: ReadingInfo[] = element.re_inf.map((info: string) => {
+        return info as ReadingInfo;
+      });
+
+      const frequencyRatings: (FrequencyRating | string)[] = element.re_pri.map(
+        (rating: string) => this.parseFrequencyRating(rating)
+      );
+
+      readingElements.push({
+        reading: reading,
+        isTrueKanjiReading: element.hasOwnProperty("re_nokanji"),
+        subsetOfNonKanaReadings: element.re_restr,
+        readingInfo: readingInfo,
+        frequencyRating: frequencyRatings,
+      });
+    });
+
+    return readingElements;
+  };
+
+  private parseSenseElements = (object: { [x: string]: any }): ISense[] => {
+    const sense: ISense[] = [];
     return sense;
   };
 
@@ -91,7 +141,7 @@ class JMdict extends BaseParser {
     const entry: IEntry = {
       // ent_seq = ["1000000"]
       id: parseInt(object.ent_seq[0] as string),
-      readingElements: [],
+      readingElements: this.parseReadingElements(object.r_ele),
       senseElements: [],
     };
 
