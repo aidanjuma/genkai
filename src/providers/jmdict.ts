@@ -98,12 +98,16 @@ class JMdict extends BaseParser {
   };
 
   // During parsing to JSON, multiple <r_ele> are compiled into one; each item in array is a seperated IReadingElement.
-  private parseReadingElements = (r_ele: {
-    [x: string]: any;
-  }): IReadingElement[] => {
+  private parseReadingElements = (
+    r_ele: [
+      {
+        [x: string]: any;
+      }
+    ]
+  ): IReadingElement[] => {
     const readingElements: IReadingElement[] = [];
 
-    r_ele.array.forEach((element: { [reb: string]: string[] }) => {
+    r_ele.forEach((element: { [reb: string]: string[] }) => {
       const reb: string = element.reb[0];
 
       const reading: IJapaneseReading = {
@@ -131,9 +135,23 @@ class JMdict extends BaseParser {
     return readingElements;
   };
 
-  private parseSenseElements = (object: { [x: string]: any }): ISense[] => {
+  private parseSenseElements = (objects: [{ [x: string]: any }]): ISense[] => {
     const sense: ISense[] = [];
+
+    objects.forEach((object: { [x: string]: any }) => {});
+
     return sense;
+  };
+
+  private parseKanjiElements = (
+    k_ele: [
+      {
+        [x: string]: any;
+      }
+    ]
+  ): IKanjiElement[] => {
+    const kanjiElements: IKanjiElement[] = [];
+    return kanjiElements;
   };
 
   private parseEntry = (object: { [x: string]: any }): IEntry => {

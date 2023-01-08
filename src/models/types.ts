@@ -78,7 +78,7 @@ export interface IKanjiElement {
   frequencyRating?: (FrequencyRating | string)[];
 }
 
-// TODO: Expand on ISense.
+// TODO: Expand on ISense; see near bottom of file for TODOs.
 export interface ISense {
   /* Potential translational equivalents in:
    * English
@@ -101,8 +101,20 @@ export interface ISense {
   // See IRestrictLexeme interface for more details.
   lexemeRestrictions?: IRestrictLexeme[];
 
-  // <ant> - An antonym that matches another entry's keb/reb.
-  antonym?: string;
+  // <pos> - Part-of-Speech information for said entry/sense.
+  partOfSpeech?: PartOfSpeech;
+
+  // <ant> - An antonym that matches another entry's keb/reb. Can have multiple.
+  antonyms?: string[];
+
+  // <field> - Information regarding the application of entry/sense. Can have multiple.
+  fields?: Field[];
+
+  // <misc> - Other relevant information regarding the entry/sense. Can have multiple.
+  miscellaneous?: Miscellaneous[];
+
+  // <dial> - Dialect of Japanese said word/phrase originates from.
+  dialect?: Dialect;
 }
 
 export interface ITranslation {
@@ -441,6 +453,8 @@ export enum KanjiInfo {
   RarelyUsedKanjiForm = "&rK;",
   SearchOnlyKanjiForm = "&sK;",
 }
+
+// TODO: s_inf, lsource, xref for ISense...
 
 /* Extra Enums for Readability: */
 export enum KanaType {
