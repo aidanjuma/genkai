@@ -1,7 +1,8 @@
 import fs from "fs";
+import Constants from "../utils/constants";
 import XMLParser from "../utils/xml-parser";
 import Downloader from "../utils/downloader";
-import Constants from "../utils/constants";
+import { getEnumKeyByEnumValue } from "../utils/common";
 import {
   BaseParser,
   IEntry,
@@ -85,15 +86,16 @@ class JMdict extends BaseParser {
   };
 
   private parseFrequencyRating = (rating: string): FrequencyRating | string => {
-    const indexOfRating: number = Object.values(FrequencyRating).indexOf(
-      rating as unknown as FrequencyRating
-    );
+    const frequencyRating: FrequencyRating | null = getEnumKeyByEnumValue(
+      FrequencyRating,
+      rating
+    ) as FrequencyRating | null;
 
-    switch (indexOfRating) {
-      case -1:
+    switch (frequencyRating) {
+      case null:
         return rating as string;
       default:
-        return rating as FrequencyRating;
+        return frequencyRating;
     }
   };
 
@@ -116,7 +118,7 @@ class JMdict extends BaseParser {
       };
 
       const readingInfo: ReadingInfo[] = element.re_inf.map((info: string) => {
-        return info as ReadingInfo;
+        return getEnumKeyByEnumValue(ReadingInfo, info) as ReadingInfo;
       });
 
       const frequencyRatings: (FrequencyRating | string)[] = element.re_pri.map(
@@ -138,7 +140,28 @@ class JMdict extends BaseParser {
   private parseSenseElements = (objects: [{ [x: string]: any }]): ISense[] => {
     const sense: ISense[] = [];
 
-    objects.forEach((object: { [x: string]: any }) => {});
+    objects.forEach((object: { [x: string]: any }) => {
+      const partOfSpeech: PartOfSpeech | null = getEnumKeyByEnumValue(
+        PartOfSpeech,
+        object.pos
+      ) as PartOfSpeech;
+
+      // If English, a singular string will be present in list.
+      const glossary: ITranslation | ITranslation[] =
+        object.gloss.length < 2
+          ? {
+              language: Language.English,
+              relativeCommonality: 0,
+              translation: object.gloss[0],
+            }
+          : [];
+
+      if (typeof glossary !== "object") {
+        for (let i = 0; i < object.gloss.length; i++) {
+          // TODO: Process other languages...
+        }
+      }
+    });
 
     return sense;
   };

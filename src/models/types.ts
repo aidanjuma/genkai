@@ -89,14 +89,7 @@ export interface ISense {
    * Slovenian
    * Dutch
    */
-  inEnglish?: ITranslation[];
-  inGerman?: ITranslation[];
-  inFrench?: ITranslation[];
-  inRussian?: ITranslation[];
-  inSpanish?: ITranslation[];
-  inHungarian?: ITranslation[];
-  inSlovenian?: ITranslation[];
-  inDutch?: ITranslation[];
+  glossary: ITranslation | ITranslation[];
 
   // See IRestrictLexeme interface for more details.
   lexemeRestrictions?: IRestrictLexeme[];

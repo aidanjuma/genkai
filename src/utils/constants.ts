@@ -14,6 +14,10 @@ class Constants {
   // Japanese Characters: Used to recognise whether character is Hiragana or Katakana via RegExp.
   static readonly hiraganaRegex: RegExp = new RegExp(/[\u3040-\u309F]/gm);
   static readonly katakanaRegex: RegExp = new RegExp(/[\u30A0-\u30FF]/gm);
+
+  // i.e. {"_": "Walt", "$": "xml:lang=ger"}
+  static readonly glossaryLanguageKey: string = "$";
+  static readonly glossaryTranslationKey: string = "_";
 }
 
 export default Constants;
